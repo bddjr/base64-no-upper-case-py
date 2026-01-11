@@ -1,0 +1,8 @@
+{
+  "files.eol": "\n",
+  "python.analysis.typeCheckingMode": "strict",
+  "black-formatter.args": [
+    "--line-length",
+    "150"
+  ]
+}
