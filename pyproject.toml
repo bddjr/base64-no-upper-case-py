@@ -1,6 +1,6 @@
 [project]
 name = "base64-no-upper-case"
-version = "0.0.1"
+version = "2.0.0"
 authors = [{ name = "bddjr" }]
 description = "Base64, but no UPPER CASE."
 readme = "README.md"
@@ -13,6 +13,7 @@ license = "Unlicense"
 license-files = ["LICEN[CS]E*"]
 keywords = [
     "base64",
+    "base",
     "scratch",
     "upper",
     "lower",
@@ -21,6 +22,8 @@ keywords = [
     "lowercase",
     "encode",
     "decode",
+    "atob",
+    "btoa",
 ]
 
 [project.urls]

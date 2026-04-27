@@ -1,3 +1,7 @@
+# Windows: py -m pytest
+# Other: python3 -m pytest
+
+from collections.abc import Buffer
 import random
 import base64NoUpperCase
 
@@ -5,16 +9,15 @@ import base64NoUpperCase
 def test_init():
     print()
 
-    def t(input: bytearray | bytes | str):
-        print(input)
-        enc = base64NoUpperCase.encode(input)
+    def t(s: str | Buffer):
+        print(s)
+        enc = base64NoUpperCase.b64encode(s)
         print(enc)
-        if isinstance(input,str):
-            dec = base64NoUpperCase.decodeToStr(enc)
-        else:
-            dec = base64NoUpperCase.decode(enc)
+        dec = base64NoUpperCase.b64decode(enc)
+        if isinstance(s, str):
+            dec = dec.decode()
         print(dec)
-        assert input == dec
+        assert s == dec
         print()
 
     t("hello world")
@@ -25,3 +28,7 @@ def test_init():
     t(random.randbytes(7))
     t(random.randbytes(8))
     t(random.randbytes(9))
+    t("你好👋")
+
+    print(base64NoUpperCase.b64decode("x+"))
+    print(base64NoUpperCase.b64decode("x++"))

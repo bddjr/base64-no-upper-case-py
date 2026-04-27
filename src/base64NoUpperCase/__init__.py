@@ -4,89 +4,55 @@ Base64, but no UPPER CASE.
 It is useful in case-insensitive scenarios, such as Scratch.
 """
 
-import math
+import binascii
+from collections.abc import Buffer
+
+
+__all__ = ["CHAR_MAP", "b64encode", "b64decode"]
 
 CHAR_MAP = "!#$%&()*,-.:;<>?@[]^_`{|}~abcdefghijklmnopqrstuvwxyz0123456789+/"
 
+_upperCharMap = b"ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+_noUpperCharMap = b"!#$%&()*,-.:;<>?@[]^_`{|}~"
 
-def encode(input: bytearray | bytes | str) -> str:
-    if isinstance(input, str):
-        input = input.encode()
-    il = len(input)
-    if il < 1:
-        return ""
-    out = [""] * (math.ceil(il / 3) * 4)
-    ii: int = 0
-    oi: int = 0
-    cache: int = input[0]  # type: ignore
-
-    def pp() -> int:
-        nonlocal input, ii, il, cache
-        r = cache
-        ii += 1
-        if ii < il:
-            cache = input[ii]  # type: ignore
-        else:
-            cache = 0
-        return r
-
-    while ii < il:
-        # 00000000 11111111 22222222
-        # __000000 __001111 __111122 __222222
-        out[oi] = CHAR_MAP[cache >> 2 & 63]
-        oi += 1
-        out[oi] = CHAR_MAP[(pp() << 4 | cache >> 4) & 63]
-        oi += 1
-        out[oi] = "=" if ii >= il else CHAR_MAP[(pp() << 2 | cache >> 6) & 63]
-        oi += 1
-        out[oi] = "=" if ii >= il else CHAR_MAP[pp() & 63]
-        oi += 1
-    return "".join(out)
+_encode_translation = bytes.maketrans(_upperCharMap, _noUpperCharMap)
+_decode_translation = bytes.maketrans(_noUpperCharMap, _upperCharMap)
 
 
-def decode(input: str) -> bytearray:
-    il = len(input)
-    if il < 1:
-        return bytearray(0)
-    ol = math.floor(il / 4 * 3)
-    if input[-1] == "=":
-        ol -= 1 + (il > 1 and input[-2] == "=")
-    out = bytearray(ol)
-    ii: int = 0
-    oi: int = 0
-    character: str
-    cache: int = 0
-
-    def next() -> int:
-        nonlocal input, ii, character, cache
-        if ii >= il:
-            cache = 0
-            return 0
-        character = input[ii]
-        if character == "=":
-            cache = 0
-            return 0
-        cache = CHAR_MAP.find(character)
-        if cache < 0:
-            raise ValueError(f"InvalidCharacterError: '{character}' at {ii}")
-        ii += 1
-        return cache
-
-    while ii < il:
-        # __000000 __111111 __222222 __333333
-        # 00000011 11112222 22333333
-        out[oi] = (next() << 2 | next() >> 4) & 255
-        oi += 1
-        if oi >= ol:
-            break
-        out[oi] = (cache << 4 | next() >> 2) & 255
-        oi += 1
-        if oi >= ol:
-            break
-        out[oi] = (cache << 6 | next()) & 255
-        oi += 1
-    return out
+def _bytes_from_encode_data(s: str | Buffer):
+    if isinstance(s, str):
+        try:
+            return s.encode()
+        except UnicodeEncodeError:
+            raise ValueError("string argument should contain only ASCII characters")
+    return s
 
 
-def decodeToStr(input: str, encoding: str = "utf-8", errors: str = "strict") -> str:
-    return decode(input).decode(encoding, errors)
+def _bytes_from_decode_data(s: str | Buffer):
+    if isinstance(s, str):
+        try:
+            return s.encode("ascii")
+        except UnicodeEncodeError:
+            raise ValueError("string argument should contain only ASCII characters")
+    if isinstance(s, (bytes, bytearray)):
+        return s
+    try:
+        return memoryview(s).tobytes()
+    except TypeError:
+        raise TypeError(
+            "argument should be a bytes-like object or ASCII "
+            "string, not %r" % s.__class__.__name__
+        ) from None
+
+
+def b64encode(s: str | Buffer) -> bytes:
+    return binascii.b2a_base64(_bytes_from_encode_data(s), newline=False).translate(
+        _encode_translation
+    )
+
+
+def b64decode(s: str | Buffer, validate: bool = False) -> bytes:
+    s = _bytes_from_decode_data(s).translate(_decode_translation)
+    if len(s) % 4 != 0:
+        s += b"=" * (4 - (len(s) % 4))
+    return binascii.a2b_base64(s, strict_mode=validate)

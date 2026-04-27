@@ -21,23 +21,19 @@ pip3 install base64-no-upper-case
 ```py
 import base64NoUpperCase
 
-# Encode str
-enc = base64NoUpperCase.encode("Hello world!")
+# Encode bytes to bytes
+enc = base64NoUpperCase.b64encode(random.randbytes(7))
 print(enc)
 
-# Decode to str
-dec = base64NoUpperCase.decodeToStr("])`sb)8gd29yb)@h")
+# Decode bytes to bytes
+dec = base64NoUpperCase.b64decode(b'q-784344h@==')
 print(dec)
 
-# Encode bytearray
-enc = base64NoUpperCase.encode(bytearray(16))
+# Encode str to str
+enc = base64NoUpperCase.b64encode("Hello world!").decode()
 print(enc)
 
-# Encode bytes
-enc = base64NoUpperCase.encode(bytes(16))
-print(enc)
-
-# Decode to bytearray
-dec = base64NoUpperCase.decode("^2rn8;ffl7<z*}{.|m@|{w==")
+# Decode str to str
+dec = base64NoUpperCase.b64decode("])`sb)8gd29yb)@h").decode()
 print(dec)
 ```
