@@ -7,7 +7,7 @@ It is useful in case-insensitive scenarios, such as Scratch.
 import binascii
 
 try:
-    from collections.abc import Buffer
+    from _collections_abc import Buffer
 except:
     pass
 
