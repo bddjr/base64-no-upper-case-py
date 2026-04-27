@@ -8,13 +8,15 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v6
 
       - uses: actions/setup-python@v6
         with:
-          python-version: "3.6"
+          # The list of all available versions can be found here:
+          # https://raw.githubusercontent.com/actions/python-versions/main/versions-manifest.json
+          python-version: "3.5.4"
 
       - run: pip3 install -r requirements-dev.txt
 
