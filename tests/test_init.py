@@ -1,9 +1,13 @@
 # Windows: py -m pytest
 # Other: python3 -m pytest
 
-from collections.abc import Buffer
 import random
 import base64NoUpperCase
+
+try:
+    from _collections_abc import Buffer
+except:
+    pass
 
 
 def test_init():
