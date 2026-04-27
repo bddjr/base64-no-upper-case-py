@@ -16,7 +16,7 @@ jobs:
         with:
           # The list of all available versions can be found here:
           # https://raw.githubusercontent.com/actions/python-versions/main/versions-manifest.json
-          python-version: "3.8"
+          python-version: "3.12"
 
       - run: pip3 install -r requirements-dev.txt
 

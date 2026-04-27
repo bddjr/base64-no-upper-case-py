@@ -4,10 +4,7 @@
 import random
 import base64NoUpperCase
 
-try:
-    from _collections_abc import Buffer
-except:
-    pass
+from collections.abc import Buffer  # Added in version 3.12.
 
 
 def test_init():
