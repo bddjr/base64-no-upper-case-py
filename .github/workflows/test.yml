@@ -25,11 +25,12 @@ jobs:
     runs-on: windows-latest
     env:
       PYTHONIOENCODING: utf-8
-      PythonVersion: "3.6.0"
     steps:
       - uses: actions/checkout@v6
 
-      - name: Download and install Python
+      - name: Install Python
+        env:
+          PythonVersion: "3.6.0" # Must use exact version
         run: |
           $ErrorActionPreference = 'Stop'
 
@@ -40,17 +41,10 @@ jobs:
           cd "$env:TEMP\setup-python-$Version"
 
           Write-Host "Download setup.ps1"
-          Invoke-WebRequest -OutFile setup.ps1 -Uri https://gist.githubusercontent.com/bddjr/f91d807fa74c1d7237ef8ccdb7d5b595/raw/c8011c954d8f943844830d9bcbf7eb4835b56364/actions-setup-python.ps1
+          Invoke-WebRequest -OutFile setup.ps1 -Uri https://gist.githubusercontent.com/bddjr/f91d807fa74c1d7237ef8ccdb7d5b595/raw
 
           Write-Host "Run setup.ps1"
           .\setup.ps1 -Architecture x64 -HardwareArchitecture x64 -Version $Version -PythonExecName $PythonExecName
 
-      # - name: Check Python Version
-      #   run: |
-      #     $ErrorActionPreference = 'Stop'
-      #     Write-Host "$env:PATH"
-      #     python -c "from sys import version as v;v=v[:v.index(' ')];print('Python',v);exit(1-(v=='$env:PythonVersion'))"
-
       - run: python -m pip install -r requirements-dev.txt
-
       - run: python -m pytest
