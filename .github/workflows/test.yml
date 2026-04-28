@@ -11,11 +11,13 @@ jobs:
     strategy:
       matrix:
         include:
-          - os: ubuntu-22.04
-            python-version: "3.7.13"
           - os: ubuntu-24.04
             python-version: "3.12"
+          - os: windows-latest
+            python-version: "3.6"
     runs-on: ${{ matrix.os }}
+    env:
+      PYTHONIOENCODING: utf-8
     steps:
       - uses: actions/checkout@v6
 
@@ -24,7 +26,6 @@ jobs:
           # The list of all available versions can be found here:
           # https://raw.githubusercontent.com/actions/python-versions/main/versions-manifest.json
           python-version: ${{ matrix.python-version }}
+          pip-install: -r requirements-dev.txt
 
-      - run: pip3 install -r requirements-dev.txt
-
-      - run: python3 -m pytest
+      - run: python -m pytest

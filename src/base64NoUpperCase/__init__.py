@@ -6,7 +6,10 @@ It is useful in case-insensitive scenarios, such as Scratch.
 
 import binascii, sys
 
-from typing import TYPE_CHECKING  # Added in version 3.5.2.
+if sys.version_info >= (3, 5, 2):
+    from typing import TYPE_CHECKING  # Added in version 3.5.2.
+else:
+    TYPE_CHECKING = False
 
 if TYPE_CHECKING:
     if sys.version_info >= (3, 12):

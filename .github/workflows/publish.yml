@@ -26,10 +26,10 @@ jobs:
           # The list of all available versions can be found here:
           # https://raw.githubusercontent.com/actions/python-versions/main/versions-manifest.json
           python-version: "3.12"
+          pip-install: -r requirements-dev.txt
 
-      - run: pip3 install -r requirements-dev.txt
-      - run: python3 -m pytest
-      - run: python3 -m build
+      - run: python -m pytest
+      - run: python -m build
 
       - name: Upload distributions
         uses: actions/upload-artifact@v7
