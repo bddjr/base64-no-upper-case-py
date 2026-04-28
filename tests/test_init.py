@@ -4,7 +4,10 @@
 import random
 import base64NoUpperCase
 
-from collections.abc import Buffer  # Added in version 3.12.
+from typing import TYPE_CHECKING  # Added in version 3.5.2.
+
+if TYPE_CHECKING:
+    from _collections_abc import Buffer  # Added in version 3.12.
 
 
 def test_init():

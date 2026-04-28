@@ -1,5 +1,7 @@
 ## Windows
 
+require python >= 3.12
+
 install requirements:
 ```
 pip3 install -r requirements-dev.txt

@@ -6,7 +6,10 @@ It is useful in case-insensitive scenarios, such as Scratch.
 
 import binascii
 
-from collections.abc import Buffer  # Added in version 3.12.
+from typing import TYPE_CHECKING  # Added in version 3.5.2.
+
+if TYPE_CHECKING:
+    from _collections_abc import Buffer  # Added in version 3.12.
 
 
 __all__ = ["CHAR_MAP", "b64encode", "b64decode"]
