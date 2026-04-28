@@ -1,13 +1,13 @@
 # Windows: py -m pytest
 # Other: python3 -m pytest
 
-import random, os
+import random
 import base64NoUpperCase
 
 if hasattr(random, "randbytes"):
-    randbytes = random.randbytes
+    randbytes = random.randbytes  # Added in version 3.9.
 else:
-    randbytes = os.urandom
+    from os import urandom as randbytes
 
 
 def test_init():
