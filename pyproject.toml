@@ -30,6 +30,6 @@ keywords = [
 Source = "https://github.com/bddjr/base64-no-upper-case-py"
 
 [tool.pytest.ini_options]
-addopts = "-s"
+addopts = "-s -p no:mypy-testing"
 testpaths = ["tests"]
 pythonpath = ["src"]

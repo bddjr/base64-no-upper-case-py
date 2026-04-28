@@ -23,7 +23,7 @@ _encode_translation = bytes.maketrans(_upperCharMap, _noUpperCharMap)
 _decode_translation = bytes.maketrans(_noUpperCharMap, _upperCharMap)
 
 
-def _bytes_from_encode_data(s: str | Buffer):
+def _bytes_from_encode_data(s: "str | Buffer"):
     if isinstance(s, str):
         try:
             return s.encode()
@@ -32,7 +32,7 @@ def _bytes_from_encode_data(s: str | Buffer):
     return s
 
 
-def _bytes_from_decode_data(s: str | Buffer):
+def _bytes_from_decode_data(s: "str | Buffer"):
     if isinstance(s, str):
         try:
             return s.encode("ascii")
@@ -49,13 +49,13 @@ def _bytes_from_decode_data(s: str | Buffer):
         ) from None
 
 
-def b64encode(s: str | Buffer) -> bytes:
+def b64encode(s: "str | Buffer") -> bytes:
     return binascii.b2a_base64(_bytes_from_encode_data(s), newline=False).translate(
         _encode_translation
     )
 
 
-def b64decode(s: str | Buffer, validate: bool = False) -> bytes:
+def b64decode(s: "str | Buffer", validate: bool = False) -> bytes:
     s = _bytes_from_decode_data(s).translate(_decode_translation)
     if len(s) % 4 != 0:
         s += b"=" * (4 - (len(s) % 4))

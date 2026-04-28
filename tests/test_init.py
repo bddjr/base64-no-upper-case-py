@@ -4,16 +4,11 @@
 import random
 import base64NoUpperCase
 
-from typing import TYPE_CHECKING  # Added in version 3.5.2.
-
-if TYPE_CHECKING:
-    from _collections_abc import Buffer  # Added in version 3.12.
-
 
 def test_init():
     print()
 
-    def t(s: str | Buffer):
+    def t(s: "str | bytes"):
         print(s)
         enc = base64NoUpperCase.b64encode(s)
         print(enc)
