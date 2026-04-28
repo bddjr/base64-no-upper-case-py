@@ -9,7 +9,10 @@ import binascii, sys
 from typing import TYPE_CHECKING  # Added in version 3.5.2.
 
 if TYPE_CHECKING:
-    from _collections_abc import Buffer  # Added in version 3.12.
+    if sys.version_info >= (3, 12):
+        from _collections_abc import Buffer  # Added in version 3.12.
+    else:
+        from typing import Any as Buffer
 
 
 __all__ = ["CHAR_MAP", "b64encode", "b64decode"]
