@@ -4,7 +4,7 @@ Base64, but no UPPER CASE.
 It is useful in case-insensitive scenarios, such as Scratch.
 """
 
-import binascii
+import binascii, sys
 
 from typing import TYPE_CHECKING  # Added in version 3.5.2.
 
@@ -55,8 +55,18 @@ def b64encode(s: "str | Buffer") -> bytes:
     )
 
 
-def b64decode(s: "str | Buffer", validate: bool = False) -> bytes:
-    s = _bytes_from_decode_data(s).translate(_decode_translation)
-    if len(s) % 4 != 0:
-        s += b"=" * (4 - (len(s) % 4))
-    return binascii.a2b_base64(s, strict_mode=validate)
+if sys.version_info >= (3, 11):
+
+    def b64decode(s: "str | Buffer", validate: bool = False) -> bytes:
+        s = _bytes_from_decode_data(s).translate(_decode_translation)
+        if len(s) % 4 != 0:
+            s += b"=" * (4 - (len(s) % 4))
+        return binascii.a2b_base64(s, strict_mode=validate)
+
+else:
+
+    def b64decode(s: "str | Buffer") -> bytes:
+        s = _bytes_from_decode_data(s).translate(_decode_translation)
+        if len(s) % 4 != 0:
+            s += b"=" * (4 - (len(s) % 4))
+        return binascii.a2b_base64(s)
