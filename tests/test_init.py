@@ -1,8 +1,13 @@
 # Windows: py -m pytest
 # Other: python3 -m pytest
 
-import random
+import random, os
 import base64NoUpperCase
+
+if hasattr(random, "randbytes"):
+    randbytes = random.randbytes
+else:
+    randbytes = os.urandom
 
 
 def test_init():
@@ -24,9 +29,9 @@ def test_init():
     t("1234567")
     t("12345678")
     t("123456789")
-    t(random.randbytes(7))
-    t(random.randbytes(8))
-    t(random.randbytes(9))
+    t(randbytes(7))
+    t(randbytes(8))
+    t(randbytes(9))
     t("你好👋")
 
     print(base64NoUpperCase.b64decode("x+"))
