@@ -23,6 +23,7 @@ CHAR_MAP = "!#$%&()*,-.:;<>?@[]^_`{|}~abcdefghijklmnopqrstuvwxyz0123456789+/"
 _upperCharMap = b"ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 _noUpperCharMap = b"!#$%&()*,-.:;<>?@[]^_`{|}~"
 
+# bytes.maketrans Added in version 3.1.
 _encode_translation = bytes.maketrans(_upperCharMap, _noUpperCharMap)
 _decode_translation = bytes.maketrans(_noUpperCharMap, _upperCharMap)
 
