@@ -1,5 +1,5 @@
+from src import base64NoUpperCase  # Python 3.3.0: PEP 420, namespace package support
 import random
-from src import base64NoUpperCase
 
 if hasattr(random, "randbytes"):
     randbytes = random.randbytes  # Added in version 3.9.
