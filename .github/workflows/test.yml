@@ -20,7 +20,7 @@ jobs:
 
       - run: python test.py
 
-  python-3_1:
+  python-3_0:
     runs-on: windows-latest
     env:
       PYTHONIOENCODING: utf-8
@@ -29,8 +29,8 @@ jobs:
 
       - name: Install Python
         env:
-          PythonVersion: "3.1" # Must use exact version
-          PythonExecName: "python-3.1.amd64.msi"
+          PythonVersion: "3.0" # Must use exact version
+          PythonExecName: "python-3.0.amd64.msi"
         run: |
           $ErrorActionPreference = 'Stop'
 

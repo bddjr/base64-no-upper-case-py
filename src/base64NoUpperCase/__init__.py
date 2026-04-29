@@ -23,9 +23,20 @@ CHAR_MAP = "!#$%&()*,-.:;<>?@[]^_`{|}~abcdefghijklmnopqrstuvwxyz0123456789+/"
 _upperCharMap = b"ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 _noUpperCharMap = b"!#$%&()*,-.:;<>?@[]^_`{|}~"
 
-# bytes.maketrans Added in version 3.1.
-_encode_translation = bytes.maketrans(_upperCharMap, _noUpperCharMap)
-_decode_translation = bytes.maketrans(_noUpperCharMap, _upperCharMap)
+
+if sys.version_info >= (3, 1):
+    _maketrans = bytes.maketrans  # Added in version 3.1.
+else:
+
+    def _maketrans(frm: bytes, to: bytes):
+        b = bytearray(range(256))
+        for i in range(len(frm)):
+            b[frm[i]] = to[i]
+        return b
+
+
+_encode_translation = _maketrans(_upperCharMap, _noUpperCharMap)
+_decode_translation = _maketrans(_noUpperCharMap, _upperCharMap)
 
 
 def _bytes_from_encode_data(s: "str | Buffer"):
