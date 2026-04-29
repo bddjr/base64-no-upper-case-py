@@ -1,9 +1,13 @@
-import sys
+import sys, os, random
 
 print("Python", sys.version)
 
-from src import base64NoUpperCase  # Python 3.3.0: PEP 420, namespace package support
-import random
+if sys.version_info >= (3, 3):
+    # Python 3.3.0: PEP 420, namespace package support
+    from src import base64NoUpperCase
+else:
+    sys.path.insert(0, os.path.abspath("src"))
+    import base64NoUpperCase
 
 if hasattr(random, "randbytes"):
     randbytes = random.randbytes  # Added in version 3.9.
