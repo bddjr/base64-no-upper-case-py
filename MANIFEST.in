@@ -1,3 +1,5 @@
 exclude tests/*
 exclude MANIFEST.in
 exclude .pypirc
+exclude DEV.md
+exclude test.py
