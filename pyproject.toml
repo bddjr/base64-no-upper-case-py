@@ -1,6 +1,6 @@
 [project]
 name = "base64-no-upper-case"
-version = "2.0.1"
+version = "2.0.2"
 authors = [{ name = "bddjr" }]
 description = "Base64, but no UPPER CASE."
 readme = "README.md"
