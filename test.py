@@ -1,3 +1,7 @@
+import sys
+
+print("Python", sys.version)
+
 from src import base64NoUpperCase  # Python 3.3.0: PEP 420, namespace package support
 import random
 
