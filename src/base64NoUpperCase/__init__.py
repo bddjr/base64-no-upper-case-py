@@ -53,10 +53,20 @@ def _bytes_from_decode_data(s: "str | Buffer"):
         ) from None
 
 
-def b64encode(s: "str | Buffer") -> bytes:
-    return binascii.b2a_base64(_bytes_from_encode_data(s), newline=False).translate(
-        _encode_translation
-    )
+if sys.version_info >= (3, 6):
+
+    def b64encode(s: "str | Buffer") -> bytes:
+        return binascii.b2a_base64(
+            _bytes_from_encode_data(s),
+            newline=False,  # Changed in version 3.6: Added the newline parameter.
+        ).translate(_encode_translation)
+
+else:
+
+    def b64encode(s: "str | Buffer") -> bytes:
+        return binascii.b2a_base64(_bytes_from_encode_data(s))[:-1].translate(
+            _encode_translation
+        )
 
 
 if sys.version_info >= (3, 11):
