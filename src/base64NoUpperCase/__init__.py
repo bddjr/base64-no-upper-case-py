@@ -85,14 +85,17 @@ if sys.version_info >= (3, 11):
 
     def b64decode(s: "str | Buffer", validate: bool = False) -> bytes:
         s = _bytes_from_decode_data(s).translate(_decode_translation)
-        if len(s) % 4 != 0:
-            s += b"=" * (4 - (len(s) % 4))
+        if not validate:
+            mod = len(s) % 4
+            if mod > 1:
+                s += b"=" * (4 - mod)
         return binascii.a2b_base64(s, strict_mode=validate)
 
 else:
 
     def b64decode(s: "str | Buffer") -> bytes:
         s = _bytes_from_decode_data(s).translate(_decode_translation)
-        if len(s) % 4 != 0:
-            s += b"=" * (4 - (len(s) % 4))
+        mod = len(s) % 4
+        if mod > 1:
+            s += b"=" * (4 - mod)
         return binascii.a2b_base64(s)

@@ -1,6 +1,6 @@
 [project]
 name = "base64-no-upper-case"
-version = "2.0.2"
+version = "2.0.3"
 authors = [{ name = "bddjr" }]
 description = "Base64, but no UPPER CASE."
 readme = "README.md"
@@ -10,7 +10,7 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 license = "Unlicense"
-license-files = ["LICEN[CS]E*"]
+license-files = ["LICENSE*"]
 keywords = [
     "base64",
     "base",
@@ -28,8 +28,3 @@ keywords = [
 
 [project.urls]
 Source = "https://github.com/bddjr/base64-no-upper-case-py"
-
-[tool.pytest.ini_options]
-addopts = "-s"
-testpaths = ["tests"]
-pythonpath = ["src"]
